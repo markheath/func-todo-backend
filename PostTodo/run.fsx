@@ -23,7 +23,7 @@ let Run(req: HttpRequestMessage, log: TraceWriter, todosTable: IAsyncCollector<T
         log.Info(sprintf "Got a task: %s" data)
         let todo = JsonConvert.DeserializeObject<Todo>(data)
         let newId =  Guid.NewGuid().ToString("N")
-        let newUrl = req.RequestUri.GetLeftPart(UriPartial.Path) + newId;
+        let newUrl = req.RequestUri.GetLeftPart(UriPartial.Path).TrimEnd('/') + "/" + newId;
         let tableEntity = { todo with PartitionKey="TODO"; RowKey=newId; id=newId; url=newUrl }
         let awaitTask = Async.AwaitIAsyncResult >> Async.Ignore 
         do! todosTable.AddAsync(tableEntity) |> awaitTask
