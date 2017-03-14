@@ -19,8 +19,8 @@ You'll need to point at an Azure storage account so it has somewhere to store th
 ```
 func settings add AzureWebJobsStorage "DefaultEndpointsProtocol=https;AccountName=<YOURSTORAGEAPP>;AccountKey=<YOURACCOUNTKEY>"
 ```
-Now we can run with
+Now we can run with (enabling CORS so we can point the [todo-backed test runner](http://todobackend.com/specs/index.html) at localhost)
 ```
-func host start
+func host start --cors *
 ```
 Note that if the todos table doesn't exist, you'll need to call the POST method first to create a TODO which will create the table
